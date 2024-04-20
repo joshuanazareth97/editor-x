@@ -1,0 +1,14 @@
+{
+  "name": "editor-x",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker:build": "bash bin/build.sh build",
+    "docker:run": "bash bin/build.sh run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
