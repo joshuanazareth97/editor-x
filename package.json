@@ -6,9 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "bash bin/build.sh build",
-    "docker:run": "bash bin/build.sh run"
+    "docker:run": "bash bin/build.sh run",
+    "start": "concurrently npm:start:server npm:start:client -k -i -n server,client -c magenta,cyan --restart-tries 3",
+    "start:server": "cd server && npm start",
+    "start:client": "cd client && npm start"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
