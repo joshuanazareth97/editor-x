@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const settings = {
-  port: process.env.PORT || 4000,
+  port: process.env.PORT || 3001,
   secret: process.env.SECRET || "joshua n",
   mongoUrl: process.env.MONGO_URL || "mongodb://localhost:27017",
 };

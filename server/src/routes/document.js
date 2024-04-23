@@ -1,25 +1,25 @@
 import { Router } from "express";
 import {
-  createDocument,
-  getDocuments,
-  getDocument,
-  updateDocument,
+  createDocumentMeta,
   deleteDocument,
+  getDocumentMeta,
+  getDocuments,
+  setDocumentMeta,
 } from "../controllers/document.js";
 
 const router = Router();
 
 // Create route
-router.post("/", createDocument);
+router.post("/", createDocumentMeta);
 
 // Read route
 router.get("/", getDocuments);
 
 // Read single document route
-router.get("/:id", getDocument);
+router.get("/:id", getDocumentMeta);
 
 // Update route
-router.put("/:id", updateDocument);
+router.put("/:id", setDocumentMeta);
 
 // Delete route
 router.delete("/:id", deleteDocument);
