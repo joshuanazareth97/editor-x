@@ -10,6 +10,8 @@ import * as Y from "yjs";
 import { getDocumentMeta, setDocumentMeta } from "../../utils/api";
 import EditableInput from "../EditableInput/EditableInput";
 import useAuth from "../../hooks/useAuth";
+import useEditor from "../../hooks/useEditor";
+import { randomColor } from "do_username/lib/private_functions";
 
 Quill.register("modules/cursors", QuillCursors);
 
@@ -48,34 +50,13 @@ const formats = [
 ];
 
 const Editor = () => {
-  const [text, setText] = useState(null);
-  const [provider, setProvider] = useState(null);
   const [filemeta, setFileMeta] = useState(null);
   const [fileMetaLoading, setFileMetaLoading] = useState(false);
 
   // check page params
   const { documentId } = useParams();
 
-  useEffect(() => {
-    if (!documentId) return;
-    const doc = new Y.Doc();
-    const yText = doc.getText("quill");
-    const wsProvider = new WebsocketProvider(
-      "ws://172.20.204.100:3001",
-      documentId,
-      doc
-    );
-    wsProvider.on("status", (event) => {
-      console.log(event.status); // logs "connected" or "disconnected"
-    });
-    setText(yText);
-    setProvider(wsProvider);
-
-    return () => {
-      doc?.destroy();
-      wsProvider?.destroy();
-    };
-  }, [documentId]);
+  const { text, provider } = useEditor(documentId);
 
   useEffect(() => {
     if (!documentId) return;
@@ -140,7 +121,9 @@ const QuillEditor = ({ yText, provider }) => {
     quill = reactQuillRef.current.getEditor();
     provider.awareness.setLocalStateField("user", {
       name: user.username,
-      color: "#ff0000",
+      color: randomColor({
+        luminosity: "dark",
+      }),
     });
 
     binding = new QuillBinding(yText, quill, provider.awareness);

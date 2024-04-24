@@ -7,9 +7,10 @@ import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import usernameGenerator from "do_username";
 
 const Login = () => {
-  const [username, setUsername] = useState("jealous huggle");
+  const [username, setUsername] = useState(usernameGenerator.generate(18));
   const { login, user } = useAuth();
   const navigate = useNavigate();
 

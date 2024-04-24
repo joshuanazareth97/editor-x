@@ -6,6 +6,6 @@ import { login, logout } from "../controllers/auth.js";
 router.post("/login", login);
 
 // Logout route
-router.get("/logout", logout);
+router.post("/logout", logout);
 
 export default router;
