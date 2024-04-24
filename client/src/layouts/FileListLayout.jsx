@@ -5,7 +5,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 import FileList from "../components/FileList/FileList";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { EmphasizedButton } from "../components/custom-components";
-import { createDocumentMeta, getDocuments } from "../utils/api";
+import { createDocumentMeta, getDocuments, poll } from "../utils/api";
+import { useInterval } from "../hooks/usePoll";
 
 const Container = styled("div")`
   display: flex;
@@ -37,11 +38,13 @@ const FileListLayout = () => {
     navigate(`/${id}`);
   };
 
-  useEffect(() => {
+  useInterval(() => {
     getDocuments().then((docResult) => {
       setDocuments(docResult.data?.documents ?? []);
     });
-  }, []);
+  }, 3000);
+
+  useEffect(() => {}, []);
 
   return (
     <Container>

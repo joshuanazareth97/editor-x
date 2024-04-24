@@ -5,10 +5,9 @@ import { AuthContext } from "./AuthContext";
 const useAuth = () => {
   const { saveUser, logout, user } = useContext(AuthContext);
 
-  const login = (username) => {
-    apiLogin(username).then((result) => {
-      saveUser(result.data);
-    });
+  const login = async (username) => {
+    const result = await apiLogin(username);
+    saveUser(result.data);
   };
 
   return {

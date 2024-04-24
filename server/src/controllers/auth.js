@@ -10,7 +10,14 @@ export function login(req, res) {
   const userId = uuidv4();
   req.session.username = username; // Store username in session
   req.session.userId = userId; // Store username in session
-  res.status(200).json({ status: "ok", message: `Logged in as ${username}` });
+  res
+    .status(200)
+    .json({
+      status: "ok",
+      message: `Logged in as ${username}`,
+      username,
+      userId,
+    });
 }
 
 export function logout(req, res) {

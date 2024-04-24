@@ -3,14 +3,20 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./404";
 import "./App.css";
 import Editor from "./components/Editor/Editor";
+import Login from "./components/Login/Login";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import { AuthProvider } from "./hooks/AuthContext";
 import FileListLayout from "./layouts/FileListLayout";
 import { theme } from "./theme";
-import { AuthProvider } from "./AuthContext";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <FileListLayout />,
+    element: (
+      <ProtectedRoute>
+        <FileListLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -18,6 +24,10 @@ const router = createBrowserRouter([
         element: <Editor />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

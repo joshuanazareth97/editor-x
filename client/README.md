@@ -1,13 +1,1 @@
-# Logs
-
-logs
-_.log
-npm-debug.log_
-
-# VSCode
-
-.vscode-test
-
-# node_modules
-
-\*/node_modules/
+v

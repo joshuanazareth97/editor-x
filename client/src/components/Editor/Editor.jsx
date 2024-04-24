@@ -1,14 +1,17 @@
 import styled from "@emotion/styled";
+import QuillCursors from "quill-cursors";
 import React, { useEffect, useRef, useState } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useParams } from "react-router-dom";
 import { QuillBinding } from "y-quill";
 import { WebsocketProvider } from "y-websocket";
 import * as Y from "yjs";
 import { getDocumentMeta, setDocumentMeta } from "../../utils/api";
-import { Typography } from "@mui/material";
 import EditableInput from "../EditableInput/EditableInput";
+import useAuth from "../../hooks/useAuth";
+
+Quill.register("modules/cursors", QuillCursors);
 
 const modules = {
   toolbar: [
@@ -26,6 +29,7 @@ const modules = {
   history: {
     userOnly: true,
   },
+  cursors: true,
 };
 
 const formats = [
@@ -122,6 +126,7 @@ const EditorContainer = styled("div")`
 
 const QuillEditor = ({ yText, provider }) => {
   const reactQuillRef = useRef(null);
+  const { user } = useAuth();
 
   // Set up Yjs and Quill
   useEffect(() => {
@@ -133,11 +138,16 @@ const QuillEditor = ({ yText, provider }) => {
     }
 
     quill = reactQuillRef.current.getEditor();
+    provider.awareness.setLocalStateField("user", {
+      name: user.username,
+      color: "#ff0000",
+    });
+
     binding = new QuillBinding(yText, quill, provider.awareness);
     return () => {
       binding?.destroy?.();
     };
-  }, [yText, provider]);
+  }, [yText, provider, user]);
 
   return (
     <EditorContainer>

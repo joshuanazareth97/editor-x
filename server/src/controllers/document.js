@@ -5,7 +5,7 @@ export const createDocumentMeta = async (req, res) => {
   const docName = createShortCode();
   const fileName = "New Document";
   const result = await Promise.all([
-    mdb.setMeta(docName, "user", "joshua"),
+    mdb.setMeta(docName, "user", req.session.userId),
     mdb.setMeta(docName, "fileName", fileName),
   ]);
   res.json({
@@ -34,7 +34,7 @@ export const getDocuments = async (req, res) => {
   const documents = [];
   for (let docName of docNames) {
     const user = await mdb.getMeta(docName, "user");
-    if (user) {
+    if (user && user === req.session.userId) {
       const fileName = await mdb.getMeta(docName, "fileName");
       documents.push({
         docName,
